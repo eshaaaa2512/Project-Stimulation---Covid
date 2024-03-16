@@ -1,5 +1,6 @@
 CREATE DATABASE COVID_DB;
 USE COVID_DB;
+List_the_continents
 
 --List the continents along with the total number of confirmed cases, deaths, and recoveries.
 
@@ -17,13 +18,3 @@ WHERE
     worldometer_data.Continent IS NOT NULL
 GROUP BY 
        worldometer_data.Continent;
-	  
-
-      
-
-
-
-
-
-	 
-	 
