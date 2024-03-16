@@ -1,24 +1,29 @@
 CREATE DATABASE COVID_DB;
 USE COVID_DB;
---Which country has the highest number of confirmed cases on a specific date
+
+--List the continents along with the total number of confirmed cases, deaths, and recoveries.
 
 SELECT 
-    COUNTRY_WISE_LATEST.Country_Region,
-    COUNTRY_WISE_LATEST.Confirmed AS CONFIRMED_CASES,
-    full_grouped.Date
+       worldometer_data.Continent,
+	   SUM(worldometer_data.TotalDeaths) AS TOTAL_DEATHS,
+	   SUM(worldometer_data.TotalRecovered) AS TOTAL_RECOVERED,
+	   SUM(country_wise_latest.Confirmed) AS CONFIRMED_CASE
 FROM 
-    COUNTRY_WISE_LATEST
-LEFT OUTER JOIN 
-    full_grouped ON COUNTRY_WISE_LATEST.Country_Region = full_grouped.Country_Region
+    worldometer_data
+LEFT OUTER JOIN
+    country_wise_latest
+ON worldometer_data.Country_Region = country_wise_latest.Country_Region
 WHERE 
-    COUNTRY_WISE_LATEST.Confirmed IN 
-        (SELECT  MAX(COUNTRY_WISE_LATEST.Confirmed) 
-         FROM COUNTRY_WISE_LATEST)
-AND
-    full_grouped.DATE IN
-	  (SELECT MAX(full_grouped.DATE) 
-	  FROM full_grouped);
+    worldometer_data.Continent IS NOT NULL
+GROUP BY 
+       worldometer_data.Continent;
 	  
 
+      
 
 
+
+
+
+	 
+	 
