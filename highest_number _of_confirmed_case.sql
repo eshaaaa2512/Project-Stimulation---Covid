@@ -1,24 +1,33 @@
 CREATE DATABASE COVID_DB;
 USE COVID_DB;
---Which country has the highest number of confirmed cases on a specific date
 
-SELECT 
-    COUNTRY_WISE_LATEST.Country_Region,
-    COUNTRY_WISE_LATEST.Confirmed AS CONFIRMED_CASES,
-    full_grouped.Date
-FROM 
-    COUNTRY_WISE_LATEST
-LEFT OUTER JOIN 
-    full_grouped ON COUNTRY_WISE_LATEST.Country_Region = full_grouped.Country_Region
-WHERE 
-    COUNTRY_WISE_LATEST.Confirmed IN 
-        (SELECT  MAX(COUNTRY_WISE_LATEST.Confirmed) 
-         FROM COUNTRY_WISE_LATEST)
-AND
-    full_grouped.DATE IN
-	  (SELECT MAX(full_grouped.DATE) 
-	  FROM full_grouped);
+
+--Show the total number of deaths in each country, including provinces/states, for a given date.
 	  
+SELECT 
+    covid_19_clean_complete.Country_Region,
+    worldometer_data.TotalDeaths AS TotalDeaths,
+    MAX(covid_19_clean_complete.Province_State) AS Province_State
+FROM
+    covid_19_clean_complete
+LEFT OUTER JOIN
+    worldometer_data ON covid_19_clean_complete.Country_Region = worldometer_data.Country_Region
+WHERE
+    worldometer_data.TotalDeaths IN (
+        SELECT worldometer_data.TotalDeaths 
+        FROM worldometer_data
+    )
+    AND covid_19_clean_complete.DATE IN (
+        SELECT MAX(covid_19_clean_complete.DATE) 
+        FROM covid_19_clean_complete
+    )
+GROUP BY 
+    covid_19_clean_complete.Country_Region,
+	worldometer_data.TotalDeaths 
+ORDER BY 
+covid_19_clean_complete.Country_Region;
 
 
 
+	 
+	 
