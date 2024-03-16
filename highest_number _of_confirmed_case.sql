@@ -1,33 +1,20 @@
 CREATE DATABASE COVID_DB;
 USE COVID_DB;
+List_the_continents
 
+--List the continents along with the total number of confirmed cases, deaths, and recoveries.
 
---Show the total number of deaths in each country, including provinces/states, for a given date.
-	  
 SELECT 
-    covid_19_clean_complete.Country_Region,
-    worldometer_data.TotalDeaths AS TotalDeaths,
-    MAX(covid_19_clean_complete.Province_State) AS Province_State
-FROM
-    covid_19_clean_complete
+       worldometer_data.Continent,
+	   SUM(worldometer_data.TotalDeaths) AS TOTAL_DEATHS,
+	   SUM(worldometer_data.TotalRecovered) AS TOTAL_RECOVERED,
+	   SUM(country_wise_latest.Confirmed) AS CONFIRMED_CASE
+FROM 
+    worldometer_data
 LEFT OUTER JOIN
-    worldometer_data ON covid_19_clean_complete.Country_Region = worldometer_data.Country_Region
-WHERE
-    worldometer_data.TotalDeaths IN (
-        SELECT worldometer_data.TotalDeaths 
-        FROM worldometer_data
-    )
-    AND covid_19_clean_complete.DATE IN (
-        SELECT MAX(covid_19_clean_complete.DATE) 
-        FROM covid_19_clean_complete
-    )
+    country_wise_latest
+ON worldometer_data.Country_Region = country_wise_latest.Country_Region
+WHERE 
+    worldometer_data.Continent IS NOT NULL
 GROUP BY 
-    covid_19_clean_complete.Country_Region,
-	worldometer_data.TotalDeaths 
-ORDER BY 
-covid_19_clean_complete.Country_Region;
-
-
-
-	 
-	 
+       worldometer_data.Continent;
