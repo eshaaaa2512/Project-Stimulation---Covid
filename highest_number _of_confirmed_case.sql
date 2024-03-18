@@ -1,25 +1,53 @@
 CREATE DATABASE COVID_DB;
 USE COVID_DB;
 
+stored_procedure_recovered
 
 
---Create a view that displays the total number of cases (confirmed, deaths, and recovered) for each country on a specific date.
 
-CREATE VIEW TotalCasesByCountryAndDate
+CREATE PROCEDURE GetRecoveredCasesByCountryAndDate
+(
+    @Country VARCHAR(100),
+    @Date DATE)
 AS
-SELECT
-    Country_Region,
-    DATE,
-    SUM(Confirmed) AS TotalConfirmedCases,
-    SUM(Deaths) AS TotalDeaths,
-    SUM(Recovered) AS TotalRecovered
-FROM
-   full_grouped
-GROUP BY
-    Country_Region,
-	DATE;
+BEGIN
+   
+
+    SELECT 
+        TotalRecovered = covid_19_clean_complete.recovered
+    FROM 
+        covid_19_clean_complete
+	 WHERE 
+        covid_19_clean_complete.Country_Region = @Country  and 
+		covid_19_clean_complete.Date = @date;
+   
+
+    
+END
+GO
 
 
-SELECT * FROM TotalCasesByCountryAndDate WHERE Country_Region = 'JAPAN' AND DATE ='2020-01-22';
+DROP PROCEDURE GetRecoveredCasesByCountryAndDate
+
+EXECUTE GetRecoveredCasesByCountryAndDate @country ='Afghanistan', @Date='2020-01-22'
+
+select * from covid_19_clean_complete;
+
+
+
+
+
+
+
+	  
+
+
+      
+
+
+
+
+	 
+	 
 
 
