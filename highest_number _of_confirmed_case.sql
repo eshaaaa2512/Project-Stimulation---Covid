@@ -3,15 +3,23 @@ USE COVID_DB;
 
 
 
---Write a T-SQL query to calculate the total number of cases (confirmed + deaths + recovered) for each country.
+--Create a CTE to calculate the percentage increase in confirmed cases for each country over the past week.
 
-SELECT 
-    Country_Region,
-    SUM(Confirmed + Deaths + Recovered) AS TotalNumberOfCases
-FROM
-    covid_19_clean_complete
-GROUP BY
-    Country_Region;
+WITH CTE_CONFIRMEDCASES AS
+( 
+  
+      select Country_Region, ((confirmed - Confirmed_last_week)* 100)/ (confirmed)  as percen
+
+	  from country_wise_latest
+	   
+
+)
+
+SELECT country_region,percen from  CTE_CONFIRMEDCASES;
+
+select * from country_wise_latest;
+    
+
 
 
 
