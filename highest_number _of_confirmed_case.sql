@@ -29,12 +29,3 @@ select * from country_wise_latest;
 
 
 	  
-
-      
-
-
-
-
-
-	 
-	 
