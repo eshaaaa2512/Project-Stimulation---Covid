@@ -1,27 +1,31 @@
 CREATE DATABASE COVID_DB;
 USE COVID_DB;
 
-lastest_data_for_each_country
 
 
---Implement a view to show the latest data (confirmed, deaths, recovered) for each country.
+--Create a CTE to calculate the percentage increase in confirmed cases for each country over the past week.
 
-CREATE VIEW V_lastestdata
-AS
-SELECT
-    Country_Region,
-    SUM(Confirmed) AS TotalConfirmedCases,
-    SUM(Deaths) AS TotalDeaths,
-    SUM(Recovered) AS TotalRecovered
-FROM
-   full_grouped
-GROUP BY
-    Country_Region;
-	
-
-SELECT * FROM V_lastestdata WHERE Country_Region = 'JAPAN';
+WITH CTE_CONFIRMEDCASES AS
+( 
   
+      select Country_Region, ((confirmed - Confirmed_last_week)* 100)/ (confirmed)  as percen
+
+	  from country_wise_latest
+	   
+
+)
+
+SELECT country_region,percen from  CTE_CONFIRMEDCASES;
+
+select * from country_wise_latest;
+    
 
 
-	 
-	 
+
+
+
+
+
+
+
+	  
