@@ -19,6 +19,7 @@ GROUP BY
     Country_Region,
 	DATE;
 
+
 SELECT * FROM TotalCasesByCountryAndDate WHERE Country_Region = 'JAPAN' AND DATE ='2020-01-22';
 
 
