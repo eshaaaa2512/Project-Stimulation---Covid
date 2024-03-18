@@ -1,25 +1,21 @@
-CREATE DATABASE COVID_DB;
-USE COVID_DB;
 
-lastest_data_for_each_country
+WITH CTE_highestnumberofactivecases AS
+( 
+  
+      select Country_Region,max(active) as maximumactivecases
+	  
 
+	  from country_wise_latest
+	  where COUNTRY_WISE_LATEST.Confirmed IN 
+        (SELECT  MAX(COUNTRY_WISE_LATEST.Confirmed) 
+         FROM COUNTRY_WISE_LATEST)
 
---Implement a view to show the latest data (confirmed, deaths, recovered) for each country.
+	  group by Country_Region
+	   
 
-CREATE VIEW V_lastestdata
-AS
-SELECT
-    Country_Region,
-    SUM(Confirmed) AS TotalConfirmedCases,
-    SUM(Deaths) AS TotalDeaths,
-    SUM(Recovered) AS TotalRecovered
-FROM
-   full_grouped
-GROUP BY
-    Country_Region;
-	
+)
 
-SELECT * FROM V_lastestdata WHERE Country_Region = 'JAPAN';
+SELECT country_region,maximumactivecases from  CTE_highestnumberofactivecases;
   
 
 
