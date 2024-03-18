@@ -1,6 +1,7 @@
 CREATE DATABASE COVID_DB;
 USE COVID_DB;
 
+lastest_data_for_each_country
 
 
 --Implement a view to show the latest data (confirmed, deaths, recovered) for each country.
@@ -20,20 +21,6 @@ GROUP BY
 
 SELECT * FROM V_lastestdata WHERE Country_Region = 'JAPAN';
   
-
-
-
-
-
-
-
-
-	  
-
-      
-
-
-
 
 
 	 
