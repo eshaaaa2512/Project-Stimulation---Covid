@@ -3,35 +3,25 @@ USE COVID_DB;
 
 
 
---Design a stored procedure to update the number of deaths for a specific country and date.
+--Create a view that displays the total number of cases (confirmed, deaths, and recovered) for each country on a specific date.
 
-CREATE PROCEDURE numberofdeaths
-(
-    @Country VARCHAR(100),
-    @Date DATE)
+CREATE VIEW TotalCasesByCountryAndDate
 AS
-BEGIN
-   
+SELECT
+    Country_Region,
+    DATE,
+    SUM(Confirmed) AS TotalConfirmedCases,
+    SUM(Deaths) AS TotalDeaths,
+    SUM(Recovered) AS TotalRecovered
+FROM
+   full_grouped
+GROUP BY
+    Country_Region,
+	DATE;
 
-    SELECT 
-        Total_Deaths = covid_19_clean_complete.Deaths
-    FROM 
-        covid_19_clean_complete
-	 WHERE 
-        covid_19_clean_complete.Country_Region = @Country  and 
-		covid_19_clean_complete.Date = @date;
-   
+SELECT * FROM TotalCasesByCountryAndDate WHERE Country_Region = 'JAPAN' AND DATE ='2020-01-22';
+  
 
-    
-END
-GO
-
-
-DROP PROCEDURE numberofdeaths
-
-EXECUTE numberofdeaths @country ='US', @Date='2020-03-03'
-
-select * from covid_19_clean_complete where Country_Region = 'US';
 
 
 
