@@ -1,5 +1,6 @@
 CREATE DATABASE COVID_DB;
 USE COVID_DB;
+stored_procedure_recovered
 
 
 
@@ -44,6 +45,8 @@ select * from covid_19_clean_complete;
 
 
 
+	 
+	 
 
 	 
 	 
