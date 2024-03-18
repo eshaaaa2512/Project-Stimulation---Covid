@@ -16,7 +16,7 @@ where
      full_grouped.DATE IN (
         SELECT max(full_grouped.DATE)
         FROM full_grouped
-    )
+)
 
 GROUP BY
     Country_Region,date;
