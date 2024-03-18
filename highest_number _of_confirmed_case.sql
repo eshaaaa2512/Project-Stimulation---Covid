@@ -1,24 +1,24 @@
 CREATE DATABASE COVID_DB;
 USE COVID_DB;
---Which country has the highest number of confirmed cases on a specific date
 
-SELECT 
-    COUNTRY_WISE_LATEST.Country_Region,
-    COUNTRY_WISE_LATEST.Confirmed AS CONFIRMED_CASES,
-    full_grouped.Date
-FROM 
-    COUNTRY_WISE_LATEST
-LEFT OUTER JOIN 
-    full_grouped ON COUNTRY_WISE_LATEST.Country_Region = full_grouped.Country_Region
-WHERE 
-    COUNTRY_WISE_LATEST.Confirmed IN 
-        (SELECT  MAX(COUNTRY_WISE_LATEST.Confirmed) 
-         FROM COUNTRY_WISE_LATEST)
-AND
-    full_grouped.DATE IN
-	  (SELECT MAX(full_grouped.DATE) 
-	  FROM full_grouped);
-	  
 
+
+--Create a view that displays the total number of cases (confirmed, deaths, and recovered) for each country on a specific date.
+
+CREATE VIEW TotalCasesByCountryAndDate
+AS
+SELECT
+    Country_Region,
+    DATE,
+    SUM(Confirmed) AS TotalConfirmedCases,
+    SUM(Deaths) AS TotalDeaths,
+    SUM(Recovered) AS TotalRecovered
+FROM
+   full_grouped
+GROUP BY
+    Country_Region,
+	DATE;
+
+SELECT * FROM TotalCasesByCountryAndDate WHERE Country_Region = 'JAPAN' AND DATE ='2020-01-22';
 
 
