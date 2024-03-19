@@ -18,7 +18,7 @@ BEGIN
 
 	  
 END;
-GO
+
 
 DROP FUNCTION dbo.mortalityrate;
 SELECT dbo.RECOVERYRATE('US');
