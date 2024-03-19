@@ -3,9 +3,27 @@ USE COVID_DB;
 
 
 
---Implement an index on the "Country/Region" column to speed up search operations.
+--Develop a UDF to calculate the mortality rate (deaths / confirmed cases * 100) for a given country.
 
-create index idx_country on country_wise_latest(active);
+create function RECOVERYRATE(@COUNTRY VARCHAR(225))
+RETURNS DECIMAL(10,2)
+
+BEGIN 
+       DECLARE @RECOVERYRATE DECIMAL(10,2)
+
+	   SELECT @RECOVERYRATE = Recovered * 100/CONFIRMED 
+	   FROM COUNTRY_WISE_LATEST
+	   WHERE COUNTRY_REGION = @COUNTRY
+	   RETURN @RECOVERYRATE
+
+	  
+END;
+GO
+
+DROP FUNCTION dbo.mortalityrate;
+SELECT dbo.RECOVERYRATE('US');
+SELECT * FROM country_wise_latest WHERE Country_Region ='US';
+
 
 
   
